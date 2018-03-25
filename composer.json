@@ -29,7 +29,7 @@
         "johnpbloch/wordpress": "^4.7"
     },
     "autoload": {
-        "psr-4": {"WonderWp\\Component\\Search\\": "src"},
+        "psr-4": {"WonderWp\\Component\\PluginSkeleton\\": "src"},
         "exclude-from-classmap": [
             "/tests/"
         ]
