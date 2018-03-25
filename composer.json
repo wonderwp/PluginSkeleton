@@ -1,0 +1,38 @@
+{
+    "name": "wonderwp/plugin-skeleton",
+    "type": "library",
+    "description": "WonderWp Plugin Skeleton Component",
+    "keywords": ["search"],
+    "homepage": "https://wonderwp.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeremy Desvaux",
+            "homepage": "http://jdmweb.com"
+        },
+        {
+            "name": "WonderWp Community",
+            "homepage": "https://wonderwp.com/contributors"
+        }
+    ],
+    "require": {
+        "php": "~5.6|~7"
+    },
+    "require-dev": {
+        "wonderwp/dependency-injection": "dev-develop@dev",
+        "wonderwp/http-foundation": "dev-develop@dev",
+        "wonderwp/asset": "dev-develop@dev",
+        "wonderwp/hook": "dev-develop@dev",
+        "wonderwp/routing": "dev-develop@dev",
+        "wonderwp/search": "dev-develop@dev",
+        "wonderwp/service": "dev-develop@dev",
+        "johnpbloch/wordpress": "^4.7"
+    },
+    "autoload": {
+        "psr-4": {"WonderWp\\Component\\Search\\": "src"},
+        "exclude-from-classmap": [
+            "/tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}
