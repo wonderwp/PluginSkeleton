@@ -23,7 +23,9 @@
         "wonderwp/hook": "dev-develop@dev",
         "wonderwp/routing": "dev-develop@dev",
         "wonderwp/search": "dev-develop@dev",
-        "wonderwp/service": "dev-develop@dev",
+        "wonderwp/service": "dev-develop@dev"        
+    },
+    "require-dev": {
         "johnpbloch/wordpress": "^4.7"
     },
     "autoload": {
