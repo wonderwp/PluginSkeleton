@@ -20,6 +20,7 @@
         "wonderwp/dependency-injection": "dev-develop@dev",
         "wonderwp/http-foundation": "dev-develop@dev",
         "wonderwp/asset": "dev-develop@dev",
+        "wonderwp/generator-wwp": "dev-develop@dev",
         "wonderwp/hook": "dev-develop@dev",
         "wonderwp/routing": "dev-develop@dev",
         "wonderwp/search": "dev-develop@dev",
