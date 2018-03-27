@@ -3,7 +3,7 @@
 namespace WonderWp\Component\PluginSkeleton;
 
 use WonderWp\Component\DependencyInjection\Container;
-use WonderWp\Framework\Service\ServiceInterface;
+use WonderWp\Component\Service\ServiceInterface;
 
 abstract class AbstractPluginManager extends AbstractManager
 {
