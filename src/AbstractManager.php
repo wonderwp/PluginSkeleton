@@ -12,7 +12,7 @@ use WonderWp\Component\Search\Engine\SearchEngineInterface;
 use WonderWp\Component\Search\Service\SearchServiceInterface;
 use WonderWp\Component\Service\ServiceInterface;
 use WonderWp\Component\Shortcode\ShortcodeServiceInterface;
-use WonderWp\Framework\Task\TaskServiceInterface;
+use WonderWp\Component\Task\TaskServiceInterface;
 
 abstract class AbstractManager implements ManagerInterface
 {

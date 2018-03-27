@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "~5.6|~7",
+        "wonderwp/api": "dev-develop@dev",
         "wonderwp/dependency-injection": "dev-develop@dev",
         "wonderwp/http-foundation": "dev-develop@dev",
         "wonderwp/asset": "dev-develop@dev",
@@ -24,7 +25,9 @@
         "wonderwp/hook": "dev-develop@dev",
         "wonderwp/routing": "dev-develop@dev",
         "wonderwp/search": "dev-develop@dev",
-        "wonderwp/service": "dev-develop@dev"        
+        "wonderwp/service": "dev-develop@dev",
+        "wonderwp/shortcode": "dev-develop@dev",
+        "wonderwp/task": "dev-develop@dev"
     },
     "require-dev": {
         "johnpbloch/wordpress": "^4.7"
