@@ -2,7 +2,7 @@
 
 namespace WonderWp\Component\PluginSkeleton\Service;
 
-use WonderWp\Framework\Service\ServiceInterface;
+use WonderWp\Component\Service\ServiceInterface;
 
 interface DeactivatorInterface extends ServiceInterface
 {

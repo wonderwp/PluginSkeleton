@@ -23,6 +23,7 @@
         "wonderwp/asset": "dev-develop@dev",
         "wonderwp/generator-wwp": "dev-develop@dev",
         "wonderwp/hook": "dev-develop@dev",
+        "wonderwp/notification": "dev-develop@dev",
         "wonderwp/routing": "dev-develop@dev",
         "wonderwp/search": "dev-develop@dev",
         "wonderwp/service": "dev-develop@dev",

@@ -4,7 +4,7 @@ namespace WonderWp\Component\PluginSkeleton\Controller;
 
 use WonderWp\Component\DependencyInjection\Container;
 use WonderWp\Component\PluginSkeleton\ManagerInterface;
-use function WonderWp\Framework\get_plugin_file;
+use function WonderWp\Functions\get_plugin_file;
 
 abstract class AbstractPluginFrontendController
 {

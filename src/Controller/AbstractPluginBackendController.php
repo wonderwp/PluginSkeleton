@@ -2,11 +2,12 @@
 
 namespace WonderWp\Component\PluginSkeleton\Controller;
 
+use WonderWp\Component\PluginSkeleton\ListTable\AbstractListTable;
 use WonderWp\Component\PluginSkeleton\ManagerInterface;
 use WonderWp\Component\DependencyInjection\Container;
 use WonderWp\Component\HttpFoundation\Request;
-use WonderWp\Framework\Notification\AdminNotification;
-use WonderWp\Framework\Service\ServiceInterface;
+use WonderWp\Component\Notification\AdminNotification;
+use WonderWp\Component\Service\ServiceInterface;
 
 abstract class AbstractPluginBackendController
 {
