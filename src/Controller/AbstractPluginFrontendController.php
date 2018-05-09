@@ -6,6 +6,7 @@ use WonderWp\Component\DependencyInjection\Container;
 use WonderWp\Component\HttpFoundation\Request;
 use WonderWp\Component\PluginSkeleton\ManagerInterface;
 use function WonderWp\Functions\get_plugin_file;
+use WonderWp\Theme\Core\Service\ThemeQueryService;
 
 abstract class AbstractPluginFrontendController
 {
@@ -78,6 +79,7 @@ abstract class AbstractPluginFrontendController
         if (isset($params['metas'])) {
             $post->metas = $params['metas'];
         }
+        /** @var ThemeQueryService $qs */
         $qs = wwp_get_theme_service('query');
         $qs->resetPost($post);
     }
