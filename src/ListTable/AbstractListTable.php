@@ -2,10 +2,10 @@
 
 namespace WonderWp\Component\PluginSkeleton\ListTable;
 
-use function WonderWp\Framework\array_merge_recursive_distinct;
-use WonderWp\Framework\Filter\FilterFormService;
-use WonderWp\Framework\Filter\FilterFormServiceInterface;
+use WonderWp\Component\Filter\FilterFormService;
+use WonderWp\Component\Filter\FilterFormServiceInterface;
 use WonderWp\Component\HttpFoundation\Request;
+use function WonderWp\Functions\array_merge_recursive_distinct;
 
 if (!class_exists('WP_List_Table')) {
     require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
@@ -21,6 +21,9 @@ abstract class AbstractListTable extends \WP_List_Table
     /** @var  FilterFormServiceInterface */
     protected $filterFormService;
 
+    /** @var Request */
+    protected $request;
+
     /**
      * @param array $args
      */
@@ -29,6 +32,8 @@ abstract class AbstractListTable extends \WP_List_Table
         if (array_key_exists('textDomain', $args)) {
             $this->textDomain = $args['textDomain'];
         }
+
+        $this->request = Request::getInstance();
 
         parent::__construct($args);
     }
@@ -120,7 +125,7 @@ abstract class AbstractListTable extends \WP_List_Table
      */
     public function extra_tablenav($which, $showAdd = true, $givenEditParams = [])
     {
-        $request           = Request::getInstance();
+        $request           = $this->request;
         $defaultPageParams = [
             'page'   => $request->get('page'),
         ];

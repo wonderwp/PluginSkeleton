@@ -3,8 +3,9 @@
 namespace WonderWp\Component\PluginSkeleton\Controller;
 
 use WonderWp\Component\DependencyInjection\Container;
+use WonderWp\Component\HttpFoundation\Request;
 use WonderWp\Component\PluginSkeleton\ManagerInterface;
-use function WonderWp\Framework\get_plugin_file;
+use function WonderWp\Functions\get_plugin_file;
 
 abstract class AbstractPluginFrontendController
 {
@@ -12,6 +13,8 @@ abstract class AbstractPluginFrontendController
     protected $container;
     /** @var ManagerInterface */
     protected $manager;
+    /** @var Request */
+    protected $request;
 
     /**
      * AbstractPluginFrontendController constructor.
@@ -22,6 +25,7 @@ abstract class AbstractPluginFrontendController
     {
         $this->manager   = $manager;
         $this->container = Container::getInstance();
+        $this->request = Request::getInstance();
     }
 
     /**
