@@ -24,6 +24,7 @@
         "wonderwp/hook": "dev-develop@dev",
         "wonderwp/http-foundation": "dev-develop@dev",
         "wonderwp/mailing": "dev-develop@dev",
+        "wonderwp/notification": "dev-develop@dev",
         "wonderwp/routing": "dev-develop@dev",
         "wonderwp/search": "dev-develop@dev",
         "wonderwp/service": "dev-develop@dev",
