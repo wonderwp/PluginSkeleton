@@ -171,7 +171,7 @@ abstract class AbstractManager implements ManagerInterface
         // Assets
         $assetService = $this->getService(ServiceInterface::ASSETS_SERVICE_NAME);
         if ($assetService instanceof AssetServiceInterface) {
-            $assetManager = $this->container['wwp.assets.manager'];
+            $assetManager = $this->container['wwp.asset.manager'];
             $assetManager->addAssetService($assetService);
         }
 
