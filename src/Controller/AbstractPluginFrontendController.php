@@ -7,6 +7,7 @@ use WonderWp\Component\HttpFoundation\Request;
 use WonderWp\Component\PluginSkeleton\ManagerInterface;
 use function WonderWp\Functions\get_plugin_file;
 use WonderWp\Theme\Core\Service\ThemeQueryService;
+use WonderWp\Component\PluginSkeleton\Exception\ViewNotFoundException;
 
 abstract class AbstractPluginFrontendController
 {
@@ -26,7 +27,7 @@ abstract class AbstractPluginFrontendController
     {
         $this->manager   = $manager;
         $this->container = Container::getInstance();
-        $this->request = Request::getInstance();
+        $this->request   = Request::getInstance();
     }
 
     /**
@@ -58,6 +59,8 @@ abstract class AbstractPluginFrontendController
      *
      * @param  string $viewName
      * @param  array  $params
+     *
+     * @return \stdClass
      */
     protected function renderPage($viewName, $params)
     {
@@ -82,6 +85,8 @@ abstract class AbstractPluginFrontendController
         /** @var ThemeQueryService $qs */
         $qs = wwp_get_theme_service('query');
         $qs->resetPost($post);
+
+        return $post;
     }
 
     /**
@@ -102,7 +107,9 @@ abstract class AbstractPluginFrontendController
             extract($params);
             include $viewFile;
 
-            return ob_get_clean();
+            $viewContent = ob_get_clean();
+        } else {
+            throw new ViewNotFoundException("View $viewName not found. Tried locating at " . $viewFile);
         }
 
         return $viewContent;
