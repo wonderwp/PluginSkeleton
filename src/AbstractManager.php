@@ -7,6 +7,8 @@ use WonderWp\Component\Asset\AssetServiceInterface;
 use WonderWp\Component\DependencyInjection\Container;
 use WonderWp\Component\Hook\HookServiceInterface;
 use WonderWp\Component\HttpFoundation\Request;
+use WonderWp\Component\PluginSkeleton\Exception\ControllerNotFoundException;
+use WonderWp\Component\PluginSkeleton\Exception\ServiceNotFoundException;
 use WonderWp\Component\Routing\Route\RouteServiceInterface;
 use WonderWp\Component\Search\Engine\SearchEngineInterface;
 use WonderWp\Component\Search\Service\SearchServiceInterface;
@@ -88,7 +90,7 @@ abstract class AbstractManager implements ManagerInterface
     public function getController($controllerType)
     {
         if (!isset($this->controllers[$controllerType])) {
-            return null;
+            throw new ControllerNotFoundException("Controller '$controllerType', not found in manager " . get_called_class());
         }
 
         if (
@@ -130,7 +132,7 @@ abstract class AbstractManager implements ManagerInterface
     public function getService($serviceType)
     {
         if (!array_key_exists($serviceType, $this->services)) {
-            return null;
+            throw new ServiceNotFoundException("Service '$serviceType', not found in manager " . get_called_class());
         }
 
         if (
@@ -163,49 +165,79 @@ abstract class AbstractManager implements ManagerInterface
          * Call some particular services
          */
         // Hooks
-        $hookService = $this->getService(ServiceInterface::HOOK_SERVICE_NAME);
-        if ($hookService instanceof HookServiceInterface) {
-            $hookService->run();
+        try {
+            $hookService = $this->getService(ServiceInterface::HOOK_SERVICE_NAME);
+            if ($hookService instanceof HookServiceInterface) {
+                $hookService->run();
+            }
+        } catch (ServiceNotFoundException $e) {
+            //No hook service found, nothing to do here
         }
 
         // Assets
-        $assetService = $this->getService(ServiceInterface::ASSETS_SERVICE_NAME);
-        if ($assetService instanceof AssetServiceInterface) {
-            $assetManager = $this->container['wwp.asset.manager'];
-            $assetManager->addAssetService($assetService);
+        try {
+            $assetService = $this->getService(ServiceInterface::ASSETS_SERVICE_NAME);
+            if ($assetService instanceof AssetServiceInterface) {
+                $assetManager = $this->container['wwp.asset.manager'];
+                $assetManager->addAssetService($assetService);
+            }
+        } catch (ServiceNotFoundException $e) {
+            //No route service found, nothing to do here
         }
 
         // Routes
-        $routeService = $this->getService(ServiceInterface::ROUTE_SERVICE_NAME);
-        if ($routeService instanceof RouteServiceInterface) {
-            $router = $this->container['wwp.routes.router'];
-            $router->addService($routeService);
+        try {
+            $routeService = $this->getService(ServiceInterface::ROUTE_SERVICE_NAME);
+            if ($routeService instanceof RouteServiceInterface) {
+                $router = $this->container['wwp.routes.router'];
+                $router->addService($routeService);
+            }
+        } catch (ServiceNotFoundException $e) {
+            //No route service found, nothing to do here
         }
 
         // Apis
-        $apiService = $this->getService(ServiceInterface::API_SERVICE_NAME);
-        if ($apiService instanceof ApiServiceInterface) {
-            $apiService->registerEndpoints();
+        try {
+            $apiService = $this->getService(ServiceInterface::API_SERVICE_NAME);
+            if ($apiService instanceof ApiServiceInterface) {
+                $apiService->registerEndpoints();
+            }
+        } catch (ServiceNotFoundException $e) {
+            //No api service found, nothing to do here
         }
 
         // ShortCode
-        $shortCodeService = $this->getService(ServiceInterface::SHORT_CODE_SERVICE_NAME);
-        if ($shortCodeService instanceof ShortcodeServiceInterface) {
-            $shortCodeService->registerShortcodes();
+        try {
+            $shortCodeService = $this->getService(ServiceInterface::SHORT_CODE_SERVICE_NAME);
+            if ($shortCodeService instanceof ShortcodeServiceInterface) {
+                $shortCodeService->registerShortcodes();
+            }
+        } catch (ServiceNotFoundException $e) {
+            //No shortcode service found, nothing to do here
         }
 
         // Commands
-        $commandService = $this->getService(ServiceInterface::COMMAND_SERVICE_NAME);
-        if ($commandService instanceof TaskServiceInterface) {
-            $commandService->registerCommands();
+        try {
+            $commandService = $this->getService(ServiceInterface::COMMAND_SERVICE_NAME);
+            if ($commandService instanceof TaskServiceInterface) {
+                $commandService->registerCommands();
+            }
+        } catch (ServiceNotFoundException $e) {
+            //No command service found, nothing to do here
         }
 
         // Search
-        $searchService = $this->getService(ServiceInterface::SEARCH_SERVICE_NAME);
-        if ($searchService instanceof SearchServiceInterface) {
-            /** @var SearchEngineInterface $searchEngine */
-            $searchEngine = $this->container['wwp.search.engine'];
-            $searchEngine->addService($searchService);
+        try {
+            $searchService = $this->getService(ServiceInterface::SEARCH_SERVICE_NAME);
+            if ($searchService instanceof SearchServiceInterface) {
+                /** @var SearchEngineInterface $searchEngine */
+                $searchEngine = $this->container['wwp.search.engine'];
+                $searchEngine->addService($searchService);
+            }
+        } catch (ServiceNotFoundException $e) {
+            //No search service found, nothing to do here
         }
+
+        do_action('wwp.abstract_manager.run');
     }
 }
