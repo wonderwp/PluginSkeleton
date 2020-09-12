@@ -168,7 +168,7 @@ abstract class AbstractManager implements ManagerInterface
         try {
             $hookService = $this->getService(ServiceInterface::HOOK_SERVICE_NAME);
             if ($hookService instanceof HookServiceInterface) {
-                $hookService->run();
+                $hookService->register();
             }
         } catch (ServiceNotFoundException $e) {
             //No hook service found, nothing to do here
@@ -210,7 +210,7 @@ abstract class AbstractManager implements ManagerInterface
         try {
             $shortCodeService = $this->getService(ServiceInterface::SHORT_CODE_SERVICE_NAME);
             if ($shortCodeService instanceof ShortcodeServiceInterface) {
-                $shortCodeService->registerShortcodes();
+                $shortCodeService->register();
             }
         } catch (ServiceNotFoundException $e) {
             //No shortcode service found, nothing to do here
@@ -220,7 +220,7 @@ abstract class AbstractManager implements ManagerInterface
         try {
             $commandService = $this->getService(ServiceInterface::COMMAND_SERVICE_NAME);
             if ($commandService instanceof TaskServiceInterface) {
-                $commandService->registerCommands();
+                $commandService->register();
             }
         } catch (ServiceNotFoundException $e) {
             //No command service found, nothing to do here
