@@ -7,7 +7,7 @@ use WonderWp\Component\Filter\FilterFormServiceInterface;
 use WonderWp\Component\HttpFoundation\Request;
 use function WonderWp\Functions\array_merge_recursive_distinct;
 
-if (!class_exists('WP_List_Table')) {
+if (!class_exists('WP_List_Table') && defined('ABSPATH')) {
     require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }
 
