@@ -50,14 +50,9 @@ abstract class AbstractPluginManager extends AbstractManager
     public function register(Container $container)
     {
         // Config
-        $prefix = $this->getPluginName();
+        $prefix = sanitize_title($this->getPluginName());
         $this->setConfig('prefix', $prefix);
         $this->setConfig('version', $this->getVersion());
-
-        // Services
-        $this->addService(ServiceInterface::LIST_TABLE_SERVICE_NAME, function () {
-            return new \WP_List_Table();
-        });
 
         // Other
         $templatePath = $container->offsetExists('wwp.path.templates.frags') ? $container['wwp.path.templates.frags'] : '/';
