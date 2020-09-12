@@ -5,6 +5,7 @@ namespace WonderWp\Component\PluginSkeleton\Controller;
 use WonderWp\Component\DependencyInjection\Container;
 use WonderWp\Component\HttpFoundation\Request;
 use WonderWp\Component\Notification\AdminNotification;
+use WonderWp\Component\PluginSkeleton\Exception\MethodNotFoundException;
 use WonderWp\Component\PluginSkeleton\ListTable\AbstractListTable;
 use WonderWp\Component\PluginSkeleton\ManagerInterface;
 use WonderWp\Component\Service\ServiceInterface;
@@ -91,7 +92,7 @@ abstract class AbstractPluginBackendController
         if (method_exists($this, $action)) {
             call_user_func([$this, $action]);
         } else {
-            echo "Method $action not callable on this controller";
+            throw new MethodNotFoundException("Method $action not found on this controller (".get_called_class().")");
         }
     }
 
