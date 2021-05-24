@@ -56,7 +56,7 @@ abstract class AbstractPluginManager extends AbstractManager
 
         // Other
         $templatePath = $container->offsetExists('wwp.path.templates.frags') ? $container['wwp.path.templates.frags'] : '/';
-        foreach (['header', 'list', 'edit', 'tabs', 'options', 'footer'] as $frag) {
+        foreach (['header', 'list', 'edit', 'tabs', 'options', 'content', 'footer'] as $frag) {
             $container["{$prefix}.wwp.path.templates.frags.{$frag}"] = "{$templatePath}/t_{$frag}.php";
         }
 

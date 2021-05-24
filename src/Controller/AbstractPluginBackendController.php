@@ -61,12 +61,14 @@ abstract class AbstractPluginBackendController
     {
         $container = Container::getInstance();
         $prefix    = $this->manager->getConfig('prefix');
+
         $container
             ->offsetGet('wwp.views.baseAdmin')
             ->registerFrags($prefix)
             ->render([
-                'title' => get_admin_page_title(),
-                'tabs'  => $this->getTabs(),
+                'title'   => get_admin_page_title(),
+                'tabs'    => $this->getTabs(),
+                'content' => "This is your admin controller <strong>defaultAction()</strong> method.<br />You should override it in <strong>" . get_called_class() . "</strong> to display your own admin content.",
             ])
         ;
     }
@@ -92,7 +94,7 @@ abstract class AbstractPluginBackendController
         if (method_exists($this, $action)) {
             call_user_func([$this, $action]);
         } else {
-            throw new MethodNotFoundException("Method $action not found on this controller (".get_called_class().")");
+            throw new MethodNotFoundException("Method $action not found on this controller (" . get_called_class() . ")");
         }
     }
 
