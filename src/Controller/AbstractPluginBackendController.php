@@ -68,7 +68,7 @@ abstract class AbstractPluginBackendController
             ->render([
                 'title'   => get_admin_page_title(),
                 'tabs'    => $this->getTabs(),
-                'content' => "This is your admin controller <strong>defaultAction()</strong> method.<br />You should override it in <strong>" . get_called_class() . "</strong> to display your own admin content.",
+                'content' => "This is your admin controller <strong>defaultAction()</strong> method.<br />You should override it in <strong>" . get_called_class() . "</strong> to display your own admin content as explained in the <a href=\"http://wonderwp.net/Creating_a_plugin/Plugin_architecture/Admin_controller\" target='_blank'>Admin Controller documentation</a>",
             ])
         ;
     }
