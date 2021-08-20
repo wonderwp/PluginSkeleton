@@ -1,45 +1,45 @@
 {
-    "name": "wonderwp/plugin-skeleton",
-    "type": "library",
-    "description": "WonderWp Plugin Skeleton Component",
-    "keywords": ["search"],
-    "homepage": "https://wonderwp.com",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jeremy Desvaux",
-            "homepage": "http://jdmweb.com"
-        },
-        {
-            "name": "WonderWp Community",
-            "homepage": "https://wonderwp.com/contributors"
-        }
-    ],
-    "require": {
-        "php": "~5.6|~7",
-        "wonderwp/api": "^1.1",
-        "wonderwp/asset": "^1.0",
-        "wonderwp/cache": "^1.0",
-        "wonderwp/dependency-injection": "^1.0",
-        "wonderwp/generator-wwp": "^2.0",
-        "wonderwp/hook": "^1.0",
-        "wonderwp/http-foundation": "^1.0",
-        "wonderwp/mailing": "^1.1",
-        "wonderwp/notification": "^1.0",
-        "wonderwp/routing": "^1.0",
-        "wonderwp/search": "^1.1",
-        "wonderwp/service": "^1.0",
-        "wonderwp/shortcode": "^1.0",
-        "wonderwp/task": "^1.0"
+  "name": "wonderwp/plugin-skeleton",
+  "description": "WonderWp Plugin Skeleton Component",
+  "type": "library",
+  "keywords": ["plugin-skeleton", "skeleton", "WonderWp", "WordPress"],
+  "homepage": "https://github.com/wonderwp/PluginSkeleton",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jeremy Desvaux",
+      "homepage": "https://jdmweb.com"
     },
-    "require-dev": {
-        "johnpbloch/wordpress": "^4.7"
-    },
-    "autoload": {
-        "psr-4": {"WonderWp\\Component\\PluginSkeleton\\": "src"},
-        "exclude-from-classmap": [
-            "/tests/"
-        ]
-    },
-    "minimum-stability": "dev"
+    {
+      "name": "WonderWp Community",
+      "homepage": "http://wonderwp.net/Contribution/Contributors.html"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "wonderwp/api": "^1.1",
+    "wonderwp/asset": "^1.0",
+    "wonderwp/cache": "^1.0",
+    "wonderwp/dependency-injection": "^1.0",
+    "wonderwp/generator-wwp": "^2.0",
+    "wonderwp/hook": "^1.0",
+    "wonderwp/http-foundation": "^1.0",
+    "wonderwp/mailing": "^1.1",
+    "wonderwp/notification": "^1.0",
+    "wonderwp/routing": "^1.0",
+    "wonderwp/search": "^1.1",
+    "wonderwp/service": "^1.0",
+    "wonderwp/shortcode": "^1.0",
+    "wonderwp/task": "^1.0"
+  },
+  "require-dev": {
+    "johnpbloch/wordpress": "^4.7"
+  },
+  "autoload": {
+    "psr-4": {"WonderWp\\Component\\PluginSkeleton\\": "src"},
+    "exclude-from-classmap": [
+      "/tests/"
+    ]
+  },
+  "minimum-stability": "dev"
 }
