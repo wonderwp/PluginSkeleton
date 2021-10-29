@@ -38,10 +38,12 @@ abstract class AbstractPluginFrontendController
     public function handleShortCode(array $attributes = [])
     {
         if (!empty($attributes['action']) && method_exists($this, $attributes['action'] . 'Action')) {
-            return call_user_func_array([$this, $attributes['action'] . 'Action'], [$attributes]);
+            $actionName = $attributes['action'];
         } else {
-            return $this->defaultAction($attributes);
+            $actionName = 'default';
         }
+        $actionName = apply_filters('frontendController.handleShortcode.actionName', $actionName, $this, $attributes);
+        return call_user_func_array([$this, $actionName . 'Action'], [$attributes]);
     }
 
     /**
@@ -57,8 +59,8 @@ abstract class AbstractPluginFrontendController
     /**
      * Render view as a full page.
      *
-     * @param  string $viewName
-     * @param  array  $params
+     * @param string $viewName
+     * @param array $params
      *
      * @return \stdClass
      */
@@ -91,7 +93,7 @@ abstract class AbstractPluginFrontendController
 
     /**
      * @param string $viewName
-     * @param array  $params
+     * @param array $params
      *
      * @return string
      */
@@ -145,5 +147,14 @@ abstract class AbstractPluginFrontendController
     public function setManager($manager)
     {
         $this->manager = $manager;
+    }
+
+    /**
+     * @param array $attributes
+     * @return null
+     */
+    public function voidAction(array $attributes = [])
+    {
+        return '';
     }
 }
