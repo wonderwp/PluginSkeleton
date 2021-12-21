@@ -66,6 +66,7 @@ abstract class AbstractPluginFrontendController
      */
     protected function renderPage($viewName, $params)
     {
+        global $wp_query;
         $post             = new \stdClass();
         $title            = $params['title'];
         $post->post_title = $title;
@@ -84,9 +85,19 @@ abstract class AbstractPluginFrontendController
         if (isset($params['metas'])) {
             $post->metas = $params['metas'];
         }
-        /** @var ThemeQueryService $qs */
-        $qs = wwp_get_theme_service('query');
-        $qs->resetPost($post);
+
+        $wp_query->is_home = false;
+
+        if (!isset($post->post_parent)) {
+            $post->post_parent = 0;
+        }
+        if (!isset($post->metas)) {
+            $post->metas = [];
+        }
+
+        $wp_query->posts          = [0 => $post];
+        $wp_query->queried_object = $post;
+        $wp_query->post_count     = 1;
 
         return $post;
     }
