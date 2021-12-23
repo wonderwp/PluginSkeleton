@@ -66,7 +66,7 @@ abstract class AbstractPluginFrontendController
      */
     protected function renderPage($viewName, $params)
     {
-        global $wp_query;
+        global $wp_query, $post;
         $post             = new \stdClass();
         $title            = $params['title'];
         $post->post_title = $title;
