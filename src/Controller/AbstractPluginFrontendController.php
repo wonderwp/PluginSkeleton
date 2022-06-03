@@ -64,13 +64,14 @@ abstract class AbstractPluginFrontendController
      *
      * @return \stdClass
      */
-    protected function renderPage($viewName, $params)
+    protected function renderPage($viewName, $params, $templateName = null)
     {
         global $wp_query, $post;
         $post             = new \stdClass();
         $title            = $params['title'];
         $post->post_title = $title;
         $post->post_name  = sanitize_title($title);
+        $post->template   = $templateName;
 
         $post->ID           = 0;
         $post->post_content = $this->renderView($viewName, $params);
