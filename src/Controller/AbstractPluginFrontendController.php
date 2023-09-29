@@ -30,6 +30,17 @@ abstract class AbstractPluginFrontendController
         $this->request   = Request::getInstance();
     }
 
+    public function getRequest(): Request
+    {
+        return $this->request;
+    }
+
+    public function setRequest(Request $request): AbstractPluginFrontendController
+    {
+        $this->request = $request;
+        return $this;
+    }
+
     /**
      * @param array $attributes
      *
