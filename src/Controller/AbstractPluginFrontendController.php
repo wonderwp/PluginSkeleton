@@ -111,7 +111,7 @@ abstract class AbstractPluginFrontendController
         $wp_query->queried_object = $post;
         $wp_query->post_count     = 1;
 
-        return $post;
+        return apply_filters('wwp.fe_controller.renderPage', $post, $viewName, $params, $templateName);
     }
 
     /**
@@ -137,7 +137,7 @@ abstract class AbstractPluginFrontendController
             throw new ViewNotFoundException("View $viewName not found. Tried locating at " . $viewFile);
         }
 
-        return $viewContent;
+        return apply_filters('wwp.fe_controller.renderView', $viewContent, $viewName, $params);
     }
 
     public function locateView($viewName)
