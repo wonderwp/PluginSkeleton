@@ -17,23 +17,23 @@
   ],
   "require": {
     "php": ">=8.0",
-    "wonderwp/api": "^1.1",
-    "wonderwp/asset": "^2.0",
-    "wonderwp/cache": "^1.0",
-    "wonderwp/dependency-injection": "^1.0",
-    "wonderwp/generator-wwp": "^2.0",
-    "wonderwp/hook": "^1.0",
-    "wonderwp/http-foundation": "^1.0",
-    "wonderwp/mailing": "^1.1",
-    "wonderwp/notification": "^1.0",
-    "wonderwp/routing": "^1.0",
-    "wonderwp/search": "^1.1",
-    "wonderwp/service": "^1.0",
-    "wonderwp/shortcode": "^1.0",
-    "wonderwp/task": "^1.0"
+    "wonderwp/api": "dev-feature/php_8",
+    "wonderwp/asset": "dev-feature/php_8",
+    "wonderwp/cache": "dev-feature/php_8",
+    "wonderwp/dependency-injection": "dev-feature/php_8",
+    "wonderwp/generator-wwp": "dev-feature/php_8",
+    "wonderwp/hook": "dev-feature/php_8",
+    "wonderwp/http-foundation": "dev-feature/increase_http_foundation_lib_version",
+    "wonderwp/mailing": "dev-feature/php_8",
+    "wonderwp/notification": "dev-feature/php_8",
+    "wonderwp/routing": "dev-feature/php_8",
+    "wonderwp/search": "dev-feature/php_8",
+    "wonderwp/service": "dev-feature/php_8",
+    "wonderwp/shortcode": "dev-feature/php_8",
+    "wonderwp/task": "dev-feature/php_8"
   },
   "require-dev": {
-    "johnpbloch/wordpress": "^4.7"
+    "johnpbloch/wordpress": "^6.0"
   },
   "autoload": {
     "psr-4": {"WonderWp\\Component\\PluginSkeleton\\": "src"},
