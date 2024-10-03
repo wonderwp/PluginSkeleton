@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": ">=8.0",
     "wonderwp/api": "^1.1",
     "wonderwp/asset": "^2.0",
     "wonderwp/cache": "^1.0",
