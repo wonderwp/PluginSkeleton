@@ -171,7 +171,12 @@ abstract class AbstractManager implements ManagerInterface
                 $hookService->register();
             }
         } catch (ServiceNotFoundException $e) {
-            //No hook service found, nothing to do here
+            //No hook service defined, use the default one instead
+            $hookService = $this->container['wwp.hook.defaultservice'];
+            if ($hookService instanceof HookServiceInterface) {
+                $hookService->setManager($this);
+                $hookService->register();
+            }
         }
 
         // Assets
