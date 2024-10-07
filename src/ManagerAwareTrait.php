@@ -10,7 +10,7 @@ trait ManagerAwareTrait
     /**
      * @return mixed
      */
-    public function getManager()
+    public function getManager(): ManagerInterface
     {
         return $this->manager;
     }
@@ -20,7 +20,7 @@ trait ManagerAwareTrait
      *
      * @return static
      */
-    public function setManager($manager)
+    public function setManager(ManagerInterface $manager): static
     {
         $this->manager = $manager;
 
