@@ -132,7 +132,7 @@ abstract class AbstractManager implements ManagerInterface
     public function getService($serviceType)
     {
         if (!array_key_exists($serviceType, $this->services)) {
-            throw new ServiceNotFoundException("Service '$serviceType', not found in manager " . get_called_class());
+            throw new ServiceNotFoundException($serviceType, sprintf("Service '%s', not found in manager %s", $serviceType, get_called_class()));
         }
 
         if (
@@ -165,17 +165,22 @@ abstract class AbstractManager implements ManagerInterface
          * Call some particular services
          */
         // Hooks
+
         try {
             $hookService = $this->getService(ServiceInterface::HOOK_SERVICE_NAME);
             if ($hookService instanceof HookServiceInterface) {
                 $hookService->register();
             }
         } catch (ServiceNotFoundException $e) {
-            //No hook service defined, use the default one instead
-            $hookService = $this->container['wwp.hook.defaultservice'];
-            if ($hookService instanceof HookServiceInterface) {
-                $hookService->setManager($this);
-                $hookService->register();
+            if ($e->getServiceType() === ServiceInterface::HOOK_SERVICE_NAME) {
+                //No hook service defined, use the default one instead
+                $hookService = $this->container['wwp.hook.defaultservice'];
+                if ($hookService instanceof HookServiceInterface) {
+                    $hookService->setManager($this);
+                    $hookService->register();
+                }
+            } else {
+                throw $e;
             }
         }
 
@@ -187,7 +192,11 @@ abstract class AbstractManager implements ManagerInterface
                 $assetManager->addAssetService($assetService);
             }
         } catch (ServiceNotFoundException $e) {
-            //No route service found, nothing to do here
+            if($e->getServiceType() === ServiceInterface::ASSETS_SERVICE_NAME) {
+                //No assets service found, nothing to do here for now
+            } else {
+                throw $e;
+            }
         }
 
         // Routes
@@ -198,7 +207,11 @@ abstract class AbstractManager implements ManagerInterface
                 $router->addService($routeService);
             }
         } catch (ServiceNotFoundException $e) {
-            //No route service found, nothing to do here
+            if($e->getServiceType() === ServiceInterface::ROUTE_SERVICE_NAME) {
+                //No route service found, nothing to do here for now
+            } else {
+                throw $e;
+            }
         }
 
         // Apis
@@ -208,7 +221,11 @@ abstract class AbstractManager implements ManagerInterface
                 $apiService->registerEndpoints();
             }
         } catch (ServiceNotFoundException $e) {
-            //No api service found, nothing to do here
+            if ($e->getServiceType() === ServiceInterface::API_SERVICE_NAME) {
+                //No api service found, nothing to do here for now
+            } else {
+                throw $e;
+            }
         }
 
         // ShortCode
@@ -218,7 +235,11 @@ abstract class AbstractManager implements ManagerInterface
                 $shortCodeService->register();
             }
         } catch (ServiceNotFoundException $e) {
-            //No shortcode service found, nothing to do here
+            if ($e->getServiceType() === ServiceInterface::SHORT_CODE_SERVICE_NAME) {
+                //No shortcode service found, nothing to do here for now
+            } else {
+                throw $e;
+            }
         }
 
         // Commands
@@ -228,7 +249,11 @@ abstract class AbstractManager implements ManagerInterface
                 $commandService->register();
             }
         } catch (ServiceNotFoundException $e) {
-            //No command service found, nothing to do here
+            if ($e->getServiceType() === ServiceInterface::COMMAND_SERVICE_NAME) {
+                //No command service found, nothing to do here for now
+            } else {
+                throw $e;
+            }
         }
 
         // Search
@@ -241,6 +266,11 @@ abstract class AbstractManager implements ManagerInterface
             }
         } catch (ServiceNotFoundException $e) {
             //No search service found, nothing to do here
+            if ($e->getServiceType() === ServiceInterface::SEARCH_SERVICE_NAME) {
+                //No search service found, nothing to do here for now
+            } else {
+                throw $e;
+            }
         }
 
         do_action('wwp.abstract_manager.run');
