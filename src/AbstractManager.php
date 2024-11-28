@@ -4,6 +4,8 @@ namespace WonderWp\Component\PluginSkeleton;
 
 use WonderWp\Component\Api\ApiServiceInterface;
 use WonderWp\Component\Asset\AssetServiceInterface;
+use WonderWp\Component\CPT\Service\CustomPostTypeServiceInterface;
+use WonderWp\Component\CustomFields\Service\CustomFieldsRegistryServiceInterface;
 use WonderWp\Component\DependencyInjection\Container;
 use WonderWp\Component\Hook\HookServiceInterface;
 use WonderWp\Component\HttpFoundation\Request;
@@ -15,6 +17,7 @@ use WonderWp\Component\Search\Service\SearchServiceInterface;
 use WonderWp\Component\Service\ServiceInterface;
 use WonderWp\Component\Shortcode\ShortcodeServiceInterface;
 use WonderWp\Component\Task\TaskServiceInterface;
+use WonderWp\Component\Taxonomy\Service\TaxonomyServiceInterface;
 
 abstract class AbstractManager implements ManagerInterface
 {
@@ -29,7 +32,7 @@ abstract class AbstractManager implements ManagerInterface
     /** @var ServiceInterface[]|callable[] */
     protected $services = [];
 
-    const ADMIN_CONTROLLER_TYPE  = 'admin';
+    const ADMIN_CONTROLLER_TYPE = 'admin';
     const PUBLIC_CONTROLLER_TYPE = 'public';
 
     /**
@@ -100,7 +103,7 @@ abstract class AbstractManager implements ManagerInterface
             return $this->controllers[$controllerType];
         }
 
-        $raw        = $this->controllers[$controllerType];
+        $raw = $this->controllers[$controllerType];
         $controller = $this->controllers[$controllerType] = $raw($this);
 
         return $controller;
@@ -142,7 +145,7 @@ abstract class AbstractManager implements ManagerInterface
             return $this->services[$serviceType];
         }
 
-        $raw     = $this->services[$serviceType];
+        $raw = $this->services[$serviceType];
         $service = $this->services[$serviceType] = $raw($this);
 
         return $service;
@@ -164,8 +167,8 @@ abstract class AbstractManager implements ManagerInterface
         /*
          * Call some particular services
          */
-        // Hooks
 
+        // Hooks
         try {
             $hookService = $this->getService(ServiceInterface::HOOK_SERVICE_NAME);
             if ($hookService instanceof HookServiceInterface) {
@@ -174,9 +177,11 @@ abstract class AbstractManager implements ManagerInterface
         } catch (ServiceNotFoundException $e) {
             if ($e->getServiceType() === ServiceInterface::HOOK_SERVICE_NAME) {
                 //No hook service defined, use the default one instead
-                $hookService = $this->container['wwp.hook.defaultservice'];
+                $hookService = $this->container['wwp.hook.defaultService'];
                 if ($hookService instanceof HookServiceInterface) {
-                    $hookService->setManager($this);
+                    if($hookService instanceof ManagerAwareInterface){
+                        $hookService->setManager($this);
+                    }
                     $hookService->register();
                 }
             } else {
@@ -192,7 +197,7 @@ abstract class AbstractManager implements ManagerInterface
                 $assetManager->addAssetService($assetService);
             }
         } catch (ServiceNotFoundException $e) {
-            if($e->getServiceType() === ServiceInterface::ASSETS_SERVICE_NAME) {
+            if ($e->getServiceType() === ServiceInterface::ASSETS_SERVICE_NAME) {
                 //No assets service found, nothing to do here for now
             } else {
                 throw $e;
@@ -207,7 +212,7 @@ abstract class AbstractManager implements ManagerInterface
                 $router->addService($routeService);
             }
         } catch (ServiceNotFoundException $e) {
-            if($e->getServiceType() === ServiceInterface::ROUTE_SERVICE_NAME) {
+            if ($e->getServiceType() === ServiceInterface::ROUTE_SERVICE_NAME) {
                 //No route service found, nothing to do here for now
             } else {
                 throw $e;
@@ -273,6 +278,69 @@ abstract class AbstractManager implements ManagerInterface
             }
         }
 
-        do_action('wwp.abstract_manager.run');
+        // Custom Post Types
+        try {
+            $cptService = $this->getService(ServiceInterface::CUSTOM_POST_TYPE_SERVICE_NAME);
+            if ($cptService instanceof CustomPostTypeServiceInterface) {
+                $cptService->register();
+            }
+        } catch (ServiceNotFoundException $e) {
+            if ($e->getServiceType() === ServiceInterface::CUSTOM_POST_TYPE_SERVICE_NAME) {
+                //No custom post type service found, use the default one instead
+                $cptService = $this->container['wwp.cpt.defaultService'];
+                if ($cptService instanceof CustomPostTypeServiceInterface) {
+                    if($cptService instanceof ManagerAwareInterface){
+                        $cptService->setManager($this);
+                    }
+                    $cptService->register();
+                }
+            } else {
+                throw $e;
+            }
+        }
+
+        // Taxonomies
+        try {
+            $taxonomyService = $this->getService(ServiceInterface::TAXONOMY_SERVICE_NAME);
+            if ($taxonomyService instanceof TaxonomyServiceInterface) {
+                $taxonomyService->register();
+            }
+        } catch (ServiceNotFoundException $e) {
+            if ($e->getServiceType() === ServiceInterface::TAXONOMY_SERVICE_NAME) {
+                //No taxonomy service found, use the default one instead
+                $taxonomyService = $this->container['wwp.taxonomy.defaultService'];
+                if ($taxonomyService instanceof TaxonomyServiceInterface) {
+                    if($taxonomyService instanceof ManagerAwareInterface) {
+                        $taxonomyService->setManager($this);
+                    }
+                    $taxonomyService->register();
+                }
+            } else {
+                throw $e;
+            }
+        }
+
+        //Custom Fields
+        try {
+            $customFieldService = $this->getService(ServiceInterface::CUSTOM_FIELDS_SERVICE_NAME);
+            if ($customFieldService instanceof CustomFieldsRegistryServiceInterface) {
+                $customFieldService->register();
+            }
+        } catch (ServiceNotFoundException $e) {
+            if ($e->getServiceType() === ServiceInterface::CUSTOM_FIELDS_SERVICE_NAME) {
+                //No custom field service found, use the default one instead
+                $customFieldService = $this->container['wwp.customfields.defaultService'];
+                if ($customFieldService instanceof CustomFieldsRegistryServiceInterface) {
+                    if($customFieldService instanceof ManagerAwareInterface){
+                        $customFieldService->setManager($this);
+                    }
+                    $customFieldService->register();
+                }
+            } else {
+                throw $e;
+            }
+        }
+
+        do_action('wwp.abstract_manager.run', $this);
     }
 }
