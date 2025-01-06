@@ -81,7 +81,7 @@ abstract class AbstractPluginFrontendController
         $post             = new \stdClass();
         $title            = $params['title'];
         $post->post_title = $title;
-        $post->post_name  = sanitize_title($title);
+        $post->post_name  = !empty($params['post_name']) ? $params['post_name'] : sanitize_title($title);
         $post->template   = $templateName;
 
         $post->ID           = 0;
@@ -92,6 +92,9 @@ abstract class AbstractPluginFrontendController
         }
         if (!empty($params['excerpt'])) {
             $post->post_excerpt = $params['excerpt'];
+        }
+        if(!empty($params['post_type'])){
+            $post->post_type = $params['post_type'];
         }
 
         if (isset($params['metas'])) {
