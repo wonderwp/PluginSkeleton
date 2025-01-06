@@ -4,6 +4,7 @@ namespace WonderWp\Component\PluginSkeleton;
 
 use WonderWp\Component\Api\ApiServiceInterface;
 use WonderWp\Component\Asset\AssetServiceInterface;
+use WonderWp\Component\BlockType\Service\BlockTypeServiceInterface;
 use WonderWp\Component\CPT\Service\CustomPostTypeServiceInterface;
 use WonderWp\Component\CustomFields\Service\CustomFieldsRegistryServiceInterface;
 use WonderWp\Component\DependencyInjection\Container;
@@ -335,6 +336,27 @@ abstract class AbstractManager implements ManagerInterface
                         $customFieldService->setManager($this);
                     }
                     $customFieldService->register();
+                }
+            } else {
+                throw $e;
+            }
+        }
+        
+        //Block Types
+        try {
+            $blockTypeService = $this->getService(ServiceInterface::BLOCK_TYPE_SERVICE_NAME);
+            if ($blockTypeService instanceof BlockTypeServiceInterface) {
+                $blockTypeService->register();
+            }
+        } catch (ServiceNotFoundException $e) {
+            if ($e->getServiceType() === ServiceInterface::BLOCK_TYPE_SERVICE_NAME) {
+                //No block type service found, use the default one instead
+                $blockTypeService = $this->container['wwp.blockType.defaultService'];
+                if ($blockTypeService instanceof BlockTypeServiceInterface) {
+                    if($blockTypeService instanceof ManagerAwareInterface){
+                        $blockTypeService->setManager($this);
+                    }
+                    $blockTypeService->register();
                 }
             } else {
                 throw $e;
