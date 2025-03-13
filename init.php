@@ -43,7 +43,7 @@ if (!function_exists('wwp_prerender_block_theme_post_title')) {
     function wwp_prerender_block_theme_post_title($pre_render, $parsed_block, $post)
     {
         if ($parsed_block['blockName'] === 'core/post-title') {
-            $pre_render = $post->post_title;
+            $pre_render = '<h1 class="wp-block-post-title">'.$post->post_title.'</h1>';
         }
 
         return $pre_render;
