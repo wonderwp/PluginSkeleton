@@ -80,32 +80,28 @@ abstract class AbstractPluginFrontendController
         global $wp_query, $post;
         $post             = new \stdClass();
         $title            = $params['title'];
+
+        $post->ID           = $params['post_id'] ?? 0;
         $post->post_title = $title;
         $post->post_name  = !empty($params['post_name']) ? $params['post_name'] : sanitize_title($title);
-        $post->template   = $templateName;
-
-        $post->ID           = 0;
+        $post->post_excerpt = $params['excerpt'] ?? '';
         $post->post_content = $this->renderView($viewName, $params);
+        $post->post_author = $params['post_author'] ?? 0;
+        $post->post_parent = $params['post_parent'] ?? 0;
+        $post->template   = $templateName;
 
         if (!empty($params['image'])) {
             $post->post_featured_image = $params['image'];
         }
-        if (!empty($params['excerpt'])) {
-            $post->post_excerpt = $params['excerpt'];
-        }
         if(!empty($params['post_type'])){
             $post->post_type = $params['post_type'];
         }
-
         if (isset($params['metas'])) {
             $post->metas = $params['metas'];
         }
 
         $wp_query->is_home = false;
 
-        if (!isset($post->post_parent)) {
-            $post->post_parent = 0;
-        }
         if (!isset($post->metas)) {
             $post->metas = [];
         }
