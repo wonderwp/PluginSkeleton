@@ -134,7 +134,7 @@ abstract class AbstractListTable extends \WP_List_Table
             $filtersView = $this->getFiltersView($request->query->all());
             if (!empty($filtersView)) {
                 echo '<div class="wp-filter">
-                    <div class="filter-items">
+                    <div class="filter-items wwp-bo-filters-form">
                         ' . $filtersView . '
                     </div>
                     <a href="' . admin_url('/admin.php?' . http_build_query($defaultPageParams)) . '" title="' . __('Clear Filters') . '" class="clear-filters">&times;</a>
