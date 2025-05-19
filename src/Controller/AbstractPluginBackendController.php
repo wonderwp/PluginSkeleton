@@ -33,7 +33,7 @@ abstract class AbstractPluginBackendController
         $request = Request::getInstance();
         $action  = $request->get('action');
 
-        if ($action !== null) {
+        if ($action !== null && $action !== '-1') {
             return $action;
         }
 

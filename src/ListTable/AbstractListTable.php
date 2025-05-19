@@ -135,7 +135,7 @@ abstract class AbstractListTable extends \WP_List_Table
             if (!empty($filtersView)) {
                 echo '<div class="wp-filter">
                     <div class="filter-items">
-                        ' . $filtersView . '                        
+                        ' . $filtersView . '
                     </div>
                     <a href="' . admin_url('/admin.php?' . http_build_query($defaultPageParams)) . '" title="' . __('Clear Filters') . '" class="clear-filters">&times;</a>
                 </div>';
@@ -151,17 +151,6 @@ abstract class AbstractListTable extends \WP_List_Table
             echo $addBtn;
         }
 
-    }
-
-    public function bulk_actions($which = '')
-    {
-        if (empty($this->get_bulk_actions())) {
-            return;
-        } else {
-            echo '<form id="list_class_bulk_actions" method="post">';
-            parent::bulk_actions($which);
-            echo '</form>';
-        }
     }
 
     public function getFiltersView($formData = [])
