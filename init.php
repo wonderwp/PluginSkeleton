@@ -26,6 +26,8 @@ function wwp_register_render_block_theme_post_content($post)
     add_filter('pre_get_document_title', function ($title) use ($post) {
         return $post->post_title . ' - ' . get_bloginfo('name');
     }, 10, 1);
+
+    return $post;
 }
 
 if (!function_exists('wwp_prerender_block_theme_post_content')) {
