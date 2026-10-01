@@ -169,8 +169,26 @@ abstract class AbstractPluginBackendController
      */
     public function flashesToNotifications()
     {
-        $request       = Request::getInstance();
-        $flashes       = $request->getSession()->getFlashbag()->all();
+        try {
+            $session = Request::getInstance()->getSession();
+
+            if (!$session->isStarted()) {
+                // PHP session already active: Symfony can load it without sending headers.
+                if (session_status() === PHP_SESSION_ACTIVE) {
+                    // fall through to getFlashBag()
+                } elseif (headers_sent()) {
+                    // Too late to start a native session (e.g. after admin styles echo).
+                    return [];
+                } else {
+                    $session->start();
+                }
+            }
+
+            $flashes = $session->getFlashBag()->all();
+        } catch (\RuntimeException $e) {
+            return [];
+        }
+
         $notifications = [];
 
         foreach ($flashes as $type => $messages) {
