@@ -33,6 +33,13 @@ abstract class AbstractManager implements ManagerInterface
     /** @var ServiceInterface[]|callable[] */
     protected $services = [];
 
+    /**
+     * Per-request presence cache for hasService() (positive + negative).
+     *
+     * @var array<string, bool>
+     */
+    private $servicePresenceCache = [];
+
     const ADMIN_CONTROLLER_TYPE = 'admin';
     const PUBLIC_CONTROLLER_TYPE = 'public';
 
@@ -120,6 +127,7 @@ abstract class AbstractManager implements ManagerInterface
     public function setServices(array $services)
     {
         $this->services = $services;
+        $this->servicePresenceCache = [];
 
         return $this;
     }
@@ -128,14 +136,32 @@ abstract class AbstractManager implements ManagerInterface
     public function addService($serviceType, $service)
     {
         $this->services[$serviceType] = $service;
+        $this->servicePresenceCache[$serviceType] = true;
 
         return $this;
+    }
+
+    /**
+     * Whether a service key is registered. Prefer this over try/catch on getService().
+     *
+     * @param string $serviceType
+     */
+    public function hasService($serviceType): bool
+    {
+        if (array_key_exists($serviceType, $this->servicePresenceCache)) {
+            return $this->servicePresenceCache[$serviceType];
+        }
+
+        $exists = array_key_exists($serviceType, $this->services);
+        $this->servicePresenceCache[$serviceType] = $exists;
+
+        return $exists;
     }
 
     /** @inheritdoc */
     public function getService($serviceType)
     {
-        if (!array_key_exists($serviceType, $this->services)) {
+        if (!$this->hasService($serviceType)) {
             throw new ServiceNotFoundException($serviceType, sprintf("Service '%s', not found in manager %s", $serviceType, get_called_class()));
         }
 

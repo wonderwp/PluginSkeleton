@@ -86,6 +86,13 @@ interface ManagerInterface
     public function addService($serviceType, $service);
 
     /**
+     * Whether a service key is registered (prefer over try/catch on getService).
+     *
+     * @param string $serviceType
+     */
+    public function hasService($serviceType): bool;
+
+    /**
      * @param string $serviceType
      *
      * @return ServiceInterface
