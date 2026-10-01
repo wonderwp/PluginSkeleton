@@ -136,7 +136,7 @@ abstract class AbstractManager implements ManagerInterface
     public function addService($serviceType, $service)
     {
         $this->services[$serviceType] = $service;
-        unset($this->servicePresenceCache[$serviceType]);
+        $this->servicePresenceCache[$serviceType] = true;
 
         return $this;
     }
