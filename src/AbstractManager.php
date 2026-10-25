@@ -46,7 +46,7 @@ abstract class AbstractManager implements ManagerInterface
     /**
      * @param Container $container
      */
-    public function __construct(Container $container = null)
+    public function __construct(?Container $container = null)
     {
         $this->container = $container ?: Container::getInstance();
 
