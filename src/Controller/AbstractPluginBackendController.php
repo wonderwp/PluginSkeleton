@@ -101,7 +101,7 @@ abstract class AbstractPluginBackendController
     /**
      * @param AbstractListTable $listTableInstance
      */
-    public function listAction(AbstractListTable $listTableInstance = null)
+    public function listAction(?AbstractListTable $listTableInstance = null)
     {
         $container = Container::getInstance();
 
@@ -131,7 +131,7 @@ abstract class AbstractPluginBackendController
      *
      * @return AbstractListTable
      */
-    protected function getListTableInstance(AbstractListTable $listTable = null)
+    protected function getListTableInstance(?AbstractListTable $listTable = null)
     {
         if ($listTable === null) {
             $listTable = $this->manager->getService(ServiceInterface::LIST_TABLE_SERVICE_NAME);
